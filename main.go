@@ -3,6 +3,7 @@ package main
 import (
 	"advent_of_code/day1"
 	"advent_of_code/day10"
+	"advent_of_code/day11"
 	"advent_of_code/day2"
 	"advent_of_code/day3"
 	"advent_of_code/day4"
@@ -10,7 +11,6 @@ import (
 	"advent_of_code/day6"
 	"advent_of_code/day8"
 	"advent_of_code/day9"
-	"advent_of_code/template"
 	"fmt"
 )
 

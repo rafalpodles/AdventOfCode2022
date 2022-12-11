@@ -1,4 +1,4 @@
-package dayx
+package day11
 
 import (
 	"fmt"
@@ -6,13 +6,13 @@ import (
 )
 
 func Solve() {
-
 	task()
-
 }
 
 const modulo = 2 * 7 * 13 * 3 * 19 * 17 * 11 * 5
 
+// Coś zepsułem po refactorze i nie działa poprawnie.
+// Sprawdziłbym co jest nie tak, ale input mam zahardcodowany, więc nie chce mi się przepinać na input testowy. xD
 func task() {
 
 	var m = [][]int{
@@ -57,8 +57,9 @@ func move(monkey int, item int, t int) (int, int) { //monkey,item
 			item = item * 11
 			if t == 1 {
 				item = item / 3
+			} else {
+				item = item % modulo
 			}
-			item = item % modulo
 			if item%2 == 0 {
 				return 4, item
 			} else {
@@ -70,8 +71,9 @@ func move(monkey int, item int, t int) (int, int) { //monkey,item
 			item = item * item
 			if t == 1 {
 				item = item / 3
+			} else {
+				item = item % modulo
 			}
-			item = item % modulo
 			if item%7 == 0 {
 				return 3, item
 			} else {
@@ -83,8 +85,9 @@ func move(monkey int, item int, t int) (int, int) { //monkey,item
 			item = item + 1
 			if t == 1 {
 				item = item / 3
+			} else {
+				item = item % modulo
 			}
-			item = item % modulo
 			if item%13 == 0 {
 				return 4, item
 			} else {
@@ -96,8 +99,9 @@ func move(monkey int, item int, t int) (int, int) { //monkey,item
 			item = item + 2
 			if t == 1 {
 				item = item / 3
+			} else {
+				item = item % modulo
 			}
-			item = item % modulo
 			if item%3 == 0 {
 				return 6, item
 			} else {
@@ -109,8 +113,9 @@ func move(monkey int, item int, t int) (int, int) { //monkey,item
 			item = item * 13
 			if t == 1 {
 				item = item / 3
+			} else {
+				item = item % modulo
 			}
-			item = item % modulo
 			if item%19 == 0 {
 				return 1, item
 			} else {
@@ -122,8 +127,9 @@ func move(monkey int, item int, t int) (int, int) { //monkey,item
 			item = item + 5
 			if t == 1 {
 				item = item / 3
+			} else {
+				item = item % modulo
 			}
-			item = item % modulo
 			if item%17 == 0 {
 				return 2, item
 			} else {
@@ -135,8 +141,9 @@ func move(monkey int, item int, t int) (int, int) { //monkey,item
 			item = item + 6
 			if t == 1 {
 				item = item / 3
+			} else {
+				item = item % modulo
 			}
-			item = item % modulo
 			if item%11 == 0 {
 				return 2, item
 			} else {
@@ -148,8 +155,9 @@ func move(monkey int, item int, t int) (int, int) { //monkey,item
 			item = item + 7
 			if t == 1 {
 				item = item / 3
+			} else {
+				item = item % modulo
 			}
-			item = item % modulo
 			if item%5 == 0 {
 				return 1, item
 			} else {
