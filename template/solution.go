@@ -1,4 +1,4 @@
-package dayx
+package template
 
 import (
 	"bufio"

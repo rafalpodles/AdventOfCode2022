@@ -10,6 +10,7 @@ import (
 	"advent_of_code/day6"
 	"advent_of_code/day8"
 	"advent_of_code/day9"
+	"advent_of_code/template"
 	"fmt"
 )
 
@@ -52,6 +53,10 @@ func main() {
 
 	fmt.Println("Day10:")
 	day10.Solve()
+	fmt.Println("\n/////////////")
+
+	fmt.Println("Day11:")
+	day11.Solve()
 	fmt.Println("\n/////////////")
 
 }
