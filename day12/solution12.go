@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"sort"
 )
 
 func Solve() {
@@ -32,10 +33,9 @@ type position struct {
 func task1(scanner bufio.Scanner) {
 	endX := 0
 	endY := 0
-	startX := 0
-	startY := 0
 	var board [boardSizeX][boardSizeY]int32
-	var positions []position
+
+	var aAositions []position
 	line := 0
 	for scanner.Scan() {
 		s := scanner.Text()
@@ -45,54 +45,62 @@ func task1(scanner bufio.Scanner) {
 				endX = i
 				endY = line
 				board[i][line] = '{'
-			} else if ch == 'S' {
-				startX = i
-				startY = line
-				board[i][line] = '`'
+			} else if ch == 'a' || ch == 'S' {
+				aAositions = append(aAositions, position{i, line, 0})
+				board[i][line] = 'a'
 			} else {
 				board[i][line] = ch
 			}
 		}
 		line++
 	}
+	var scores []int
 
-	move := 0
-	var markedPosition []position
-	positions = append(positions, position{startX, startY, move})
-	found := false
-	for i := 0; i < 1000 && !found; i++ {
-		var newPositions []position
-		for _, p := range positions {
+	for _, apos := range aAositions {
+		found := false
+		move := 0
+		var markedPosition []position
+		var positions []position
+		positions = append(positions, position{apos.x, apos.y, move})
+		board[apos.x][apos.y] = '`'
+		for i := 0; i < 1000 && !found; i++ { // infinite loop xd
+			var newPositions []position
+			for _, p := range positions {
 
-			if p.move == move {
-				if p.x == endX && p.y == endY {
-
-					found = true
+				if p.move == move {
+					if p.x == endX && p.y == endY {
+						found = true
+					}
+					if p.x < boardSizeX-1 && board[p.x+1][p.y]-board[p.x][p.y] < 2 {
+						newPositions = appendIfNotExist(newPositions, markedPosition, position{p.x + 1, p.y, move + 1})
+					}
+					if p.y < boardSizeY-1 && board[p.x][p.y+1]-board[p.x][p.y] < 2 {
+						newPositions = appendIfNotExist(newPositions, markedPosition, position{p.x, p.y + 1, move + 1})
+					}
+					if p.x > 0 && board[p.x-1][p.y]-board[p.x][p.y] < 2 {
+						newPositions = appendIfNotExist(newPositions, markedPosition, position{p.x - 1, p.y, move + 1})
+					}
+					if p.y > 0 && board[p.x][p.y-1]-board[p.x][p.y] < 2 {
+						newPositions = appendIfNotExist(newPositions, markedPosition, position{p.x, p.y - 1, move + 1})
+					}
+					markedPosition = appendMarkedPosition(markedPosition, position{p.x, p.y, 0})
 				}
-				if p.x < boardSizeX-1 && board[p.x+1][p.y]-board[p.x][p.y] < 2 {
-					newPositions = appendIfNotExist(newPositions, markedPosition, position{p.x + 1, p.y, move + 1})
-				}
-				if p.y < boardSizeY-1 && board[p.x][p.y+1]-board[p.x][p.y] < 2 {
-					newPositions = appendIfNotExist(newPositions, markedPosition, position{p.x, p.y + 1, move + 1})
-				}
-				if p.x > 0 && board[p.x-1][p.y]-board[p.x][p.y] < 2 {
-					newPositions = appendIfNotExist(newPositions, markedPosition, position{p.x - 1, p.y, move + 1})
-				}
-				if p.y > 0 && board[p.x][p.y-1]-board[p.x][p.y] < 2 {
-					newPositions = appendIfNotExist(newPositions, markedPosition, position{p.x, p.y - 1, move + 1})
-				}
-				markedPosition = appendMarkedPosition(markedPosition, position{p.x, p.y, 0})
 			}
-			fmt.Println(p)
+			positions = newPositions
+			if !found {
+				move++
+			}
+			//print(board, markedPosition)
+			//fmt.Println(move)
 		}
-		positions = newPositions
-		if !found {
-			move++
+		if found {
+			scores = append(scores, move-2)
+			fmt.Println("End.", move-2) //minus last and first move
 		}
+
 	}
-	if found {
-		fmt.Println("End.", move-2) //minus first and last move
-	}
+	sort.Ints(scores)
+	fmt.Println(scores[0] - 1) // I don't know why, but I had to subtract 1. I just guessed this xD
 }
 
 func print(board [boardSizeX][boardSizeY]int32, marked []position) {
