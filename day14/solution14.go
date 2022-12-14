@@ -18,15 +18,14 @@ func Solve() {
 
 	scanner := bufio.NewScanner(file)
 
-	task1(*scanner)
-	task2(*scanner)
+	task(*scanner, 1)
 
 }
 
 const boardSizeX = 1000
 const boardSizeY = 200
 
-func task1(scanner bufio.Scanner) {
+func task(scanner bufio.Scanner, task int) {
 
 	var board [boardSizeX][boardSizeY]int32
 
@@ -84,13 +83,16 @@ func task1(scanner bufio.Scanner) {
 		}
 
 	}
-	for i := 0; i < boardSizeX; i++ {
-		board[i][maxY+2] = '#'
+	if task == 2 {
+		maxY = maxY + 2
+		for i := 0; i < boardSizeX; i++ {
+			board[i][maxY] = '#'
+		}
 	}
 
 	for x := 0; x < 100000; x++ { // Infinite loop xD
 		col := 500
-		for i := 1; i < maxY+3; i++ {
+		for i := 1; i < maxY+1; i++ {
 			if board[col][i] == '.' {
 				continue
 			} else if board[col-1][i] == '.' {
@@ -121,17 +123,9 @@ func countSand(board [boardSizeX][boardSizeY]int32) int {
 	return points
 }
 
-func task2(scanner bufio.Scanner) {
-	for scanner.Scan() {
-		s := scanner.Text()
-		fmt.Println(s)
-
-	}
-}
-
 func print(board [boardSizeX][boardSizeY]int32) {
 	for row := 0; row < boardSizeY; row++ {
-		for column := 300; column < boardSizeX-300; column++ {
+		for column := 450; column < boardSizeX-450; column++ {
 			fmt.Print(string(board[column][row]))
 		}
 		fmt.Print("\n")
